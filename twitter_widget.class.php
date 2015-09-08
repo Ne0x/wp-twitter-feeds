@@ -22,6 +22,7 @@
 		$twitterIntents 	= $instance['twitterIntents'];
 		//$dataShowCount 		= $instance['dataShowCount'];
 		$disp_screen_name = $instance['disp_scr_name'];
+		$disp_orig_urls = $instance['disp_orig_urls'];
 		$timeto_store 			= $instance['store_time'];
 		$consumerKey 		= trim($instance['consumerKey']);
 		$intents_text = $instance['twitterIntentsText'];
@@ -47,6 +48,7 @@
 				, 'store_time' 			=> 4
 				, 'replies_excl'		=> true
 				, 'disp_scr_name'	=> false
+				, 'disp_orig_urls'		=> false
 				, 'consumerKey' 		=> ''
 				, 'consumerSecret' 		=> ''
 				, 'accessToken' 		=> ''
@@ -104,6 +106,7 @@
 		$instance['store_time'] 			= $new_instance['store_time'];
 		//$instance['dataShowCount']		= $new_instance['dataShowCount'];
 		$instance['disp_scr_name']	= $new_instance['disp_scr_name'];
+		$instance['disp_orig_urls']		= $new_instance['disp_orig_urls'];
 		$instance['timeAgo'] 			= $new_instance['timeAgo'];
 		$instance['twitterIntents'] 	= $new_instance['twitterIntents'];
 		$instance['twitterIntentsText'] = $new_instance['twitterIntentsText'];
@@ -151,6 +154,7 @@
 		$wpltf_wdgt_consumerKey 		= trim($instance['consumerKey']);
 		//$wpltf_wdgt_dataShowCount 		= isset( $instance['dataShowCount'] ) ? $instance['dataShowCount'] : false;
 		$wpltf_wdgt_disp_scr_name 	= isset( $instance['disp_scr_name'] ) ? $instance['disp_scr_name'] : false;
+		$wpltf_wdgt_disp_orig_urls 	= isset( $instance['disp_orig_urls'] ) ? $instance['disp_orig_urls'] : false;
 		$wpltf_wdgt_timeRef 			= isset( $instance['timeRef'] ) ? $instance['timeRef'] : false;
 		$wpltf_wdgt_timeAgo 			= isset( $instance['timeAgo'] ) ? $instance['timeAgo'] : false;
 		$wpltf_wdgt_twitterIntents 		= isset( $instance['twitterIntents'] ) ? $instance['twitterIntents'] : false;

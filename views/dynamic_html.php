@@ -69,6 +69,10 @@
 				    <label for="<?php echo $this->get_field_id( 'disp_scr_name' ); ?>">Show Twitter Screen Name</label>
 				</p>
 				<p>
+					<input class="checkbox" type="checkbox" <?php checked( (isset( $instance['disp_orig_urls']) && ($instance['disp_orig_urls'] == "true") ), true ); ?> id="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>" name="<?php echo $this->get_field_name( 'disp_orig_urls' ); ?>" value="true" />
+					<label for="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>">Replace Twitter t.co shortened URLs with original</label>
+				</p>
+				<p>
 				    <input class="checkbox" type="checkbox" <?php checked( (isset( $instance['twitterFollow']) && ($instance['twitterFollow'] == "on") ), true ); ?> id="<?php echo $this->get_field_id( 'twitterFollow' ); ?>" name="<?php echo $this->get_field_name( 'twitterFollow' ); ?>" />
 				    <label for="<?php echo $this->get_field_id( 'twitterFollow' ); ?>">Show Twitter Follow Button</label>
 				</p>

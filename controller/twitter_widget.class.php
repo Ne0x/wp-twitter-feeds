@@ -22,6 +22,7 @@
 		$twitterIntents 	= $instance['twitterIntents'];
 		//$dataShowCount 		= $instance['dataShowCount'];
 		$disp_screen_name = $instance['disp_scr_name'];
+		$disp_orig_urls = $instance['disp_orig_urls'];
 		$timeto_store 			= $instance['store_time'];
 		$consumerKey 		= trim($instance['consumerKey']);
 		$intents_text = $instance['twitterIntentsText'];
@@ -47,6 +48,7 @@
 				, 'store_time' 			=> 4
 				, 'replies_excl'		=> true
 				, 'disp_scr_name'	=> false
+				, 'disp_orig_urls'		=> false
 				, 'consumerKey' 		=> ''
 				, 'consumerSecret' 		=> ''
 				, 'accessToken' 		=> ''
@@ -81,7 +83,7 @@
 		wp_enqueue_script('user_validate', plugins_url( '/js/validate.js' , dirname(__FILE__) ), array('jquery'));
 		
 	}
-	function sanitize_links($tweet) {
+	function sanitize_links($tweet, $disp_orig_urls=false) {
 		if(isset($tweet->retweeted_status)) {
 			$rt_section = current(explode(":", $tweet->text));
 			$text = $rt_section.": ";
@@ -89,7 +91,23 @@
 		} else {
 			$text = $tweet->text;
 		}
-		$text = preg_replace('/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank" rel="nofollow">$0</a>', $text );
+		if ($disp_orig_urls) {
+			$from = array();
+			$to = array();
+			if(isset($tweet->entities->media)){
+				$from[] = $tweet->entities->media['0']->url;
+				$to[] = '<a href="'.$tweet->entities->media['0']->url.'" target="_blank" title="'.$tweet->entities->media['0']->expanded_url.'">'.$tweet->entities->media['0']->display_url.'</a>';
+			}
+			if(isset($tweet->entities->urls)){
+				foreach($tweet->entities->urls as $url){
+					$from[] = $url->url;
+					$to[] = '<a href="' . $url->expanded_url . '" target="_blank" title="' . $url->expanded_url . '">' . $url->display_url . '</a>';
+				}
+			}
+			$text = str_replace($from, $to, $tweet->text);
+		} else {
+			$text = preg_replace('/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank" rel="nofollow">$0</a>', $text );
+		}
 		$text = preg_replace('/[@]+([A-Za-z0-9-_]+)/', '<a href="http://twitter.com/$1" target="_blank" rel="nofollow">@$1</a>', $text );
 		$text = preg_replace('/[#]+([A-Za-z0-9-_]+)/', '<a href="http://twitter.com/search?q=%23$1" target="_blank" rel="nofollow">$0</a>', $text );
 		return $text;
@@ -104,6 +122,7 @@
 		$instance['store_time'] 			= $new_instance['store_time'];
 		//$instance['dataShowCount']		= $new_instance['dataShowCount'];
 		$instance['disp_scr_name']	= $new_instance['disp_scr_name'];
+		$instance['disp_orig_urls']		= $new_instance['disp_orig_urls'];
 		$instance['timeAgo'] 			= $new_instance['timeAgo'];
 		$instance['twitterIntents'] 	= $new_instance['twitterIntents'];
 		$instance['twitterIntentsText'] = $new_instance['twitterIntentsText'];
@@ -151,6 +170,7 @@
 		$wpltf_wdgt_consumerKey 		= trim($instance['consumerKey']);
 		//$wpltf_wdgt_dataShowCount 		= isset( $instance['dataShowCount'] ) ? $instance['dataShowCount'] : false;
 		$wpltf_wdgt_disp_scr_name 	= isset( $instance['disp_scr_name'] ) ? $instance['disp_scr_name'] : false;
+		$wpltf_wdgt_disp_orig_urls 	= isset( $instance['disp_orig_urls'] ) ? $instance['disp_orig_urls'] : false;
 		$wpltf_wdgt_timeRef 			= isset( $instance['timeRef'] ) ? $instance['timeRef'] : false;
 		$wpltf_wdgt_timeAgo 			= isset( $instance['timeAgo'] ) ? $instance['timeAgo'] : false;
 		$wpltf_wdgt_twitterIntents 		= isset( $instance['twitterIntents'] ) ? $instance['twitterIntents'] : false;
@@ -198,6 +218,7 @@
 			$consumerKey 		= trim($wpltf_wdgt_consumerKey);
 			//$dataShowCount 		= ($wpltf_wdgt_dataShowCount != "true") ? "false" : "true";
 			$disp_screen_name	= ($wpltf_wdgt_disp_scr_name != "true") ? "false" : "true";
+			$disp_orig_urls 		= $wpltf_wdgt_disp_orig_urls;
 			$intents_text = $wpltf_wdgt_twitterIntentsText; 
 			$color_intents 		= $wpltf_wdgt_intentColor;
                         $slide_style 		= $wpltf_wdgt_slide_style; 
@@ -241,7 +262,7 @@
 			    	$permalink = 'http://twitter.com/'. $name .'/status/'. $tweet->id_str;
 			    	$tweet_id = $tweet->id_str;
 			    	$image = $tweet->user->profile_image_url;
-					$text = $this->sanitize_links($tweet);
+					$text = $this->sanitize_links($tweet, $disp_orig_urls);
 			    	$time = $tweet->created_at;
 			    	$time = date_parse($time);
 			    	$uTime = mktime($time['hour'], $time['minute'], $time['second'], $time['month'], $time['day'], $time['year']);

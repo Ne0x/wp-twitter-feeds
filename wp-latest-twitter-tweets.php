@@ -1,6 +1,6 @@
 <?php
 /**
- *Plugin Name: WP Twitter Feeds
+ *Plugin Name: WP Twitter Feeds+
  *Plugin URI: http://www.vivacityinfotech.net/
  *Description: Displays latest tweets from your Twitter account using Twitter oAuth API 1.1.
  *Author: Vivacity Infotech Pvt. Ltd.
