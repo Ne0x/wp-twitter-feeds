@@ -96,6 +96,10 @@ font-weight:bold;
 				    <label for="<?php echo $this->get_field_id( 'disp_scr_name' ); ?>"><?php _e( 'Show Twitter Screen Name', 'viva-twitter-feed' ); ?></label>
 				</p>
 				<p>
+				    <input class="checkbox" type="checkbox" <?php checked( (isset( $instance['disp_orig_urls']) && ($instance['disp_orig_urls'] == "true") ), true ); ?> id="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>" name="<?php echo $this->get_field_name( 'disp_orig_urls' ); ?>" value="true" />
+				    <label for="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>">Replace Twitter t.co shortened URLs with original</label>
+				</p>
+				<p>
 				    <label for="<?php echo $this->get_field_id( 'tweet_border' ); ?>"><?php _e( 'Show Twitter Widget Border:', 'viva-twitter-feed' ); ?></label><br/>
 					<select name="<?php echo $this->get_field_name( 'tweet_border' ); ?>" id="<?php echo $this->get_field_id( 'tweet_border' ); ?>" style="width: 100%;">
 					<option value="true" <?php if(isset($tweet_border) && $tweet_border=='true'){echo 'selected';} ?>><?php _e( 'Yes', 'viva-twitter-feed' ); ?></option>
