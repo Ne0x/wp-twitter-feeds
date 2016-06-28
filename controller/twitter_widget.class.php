@@ -25,6 +25,7 @@ class viwptf_TwitterTweets extends WP_Widget{
 		$twitterIntents 	= $instance['twitterIntents'];
 		$disp_screen_name = $instance['disp_scr_name'];
 		$disp_orig_urls = $instance['disp_orig_urls'];
+        $disp_attach_media = $instance['disp_attach_media'];
 		$timeto_store 			= $instance['store_time'];
 		$consumerKey 		= trim($instance['consumerKey']);
 		$intents_text = $instance['twitterIntentsText'];
@@ -51,6 +52,7 @@ class viwptf_TwitterTweets extends WP_Widget{
 				, 'replies_excl'		=> true
 				, 'disp_scr_name'	=> false
 				, 'disp_orig_urls'		=> false
+                , 'disp_attach_media'		=> false
 				, 'consumerKey' 		=> ''
 				, 'consumerSecret' 		=> ''
 				, 'accessToken' 		=> ''
@@ -124,6 +126,7 @@ class viwptf_TwitterTweets extends WP_Widget{
 		$instance['store_time'] 			= $new_instance['store_time'];
 		$instance['disp_scr_name']	= $new_instance['disp_scr_name'];
 		$instance['disp_orig_urls']		= $new_instance['disp_orig_urls'];
+        $instance['disp_attach_media']		= $new_instance['disp_attach_media'];
 		$instance['timeAgo'] 			= $new_instance['timeAgo'];
 		$instance['twitterIntents'] 	= $new_instance['twitterIntents'];
 		$instance['twitterIntentsText'] = $new_instance['twitterIntentsText'];
@@ -171,6 +174,7 @@ class viwptf_TwitterTweets extends WP_Widget{
 		$wpltf_wdgt_consumerKey 		= trim($instance['consumerKey']);
 		$wpltf_wdgt_disp_scr_name 	= isset( $instance['disp_scr_name'] ) ? $instance['disp_scr_name'] : false;
 		$wpltf_wdgt_disp_orig_urls 	= isset( $instance['disp_orig_urls'] ) ? $instance['disp_orig_urls'] : false;
+        $wpltf_wdgt_disp_attach_media 	= isset( $instance['disp_attach_media'] ) ? $instance['disp_attach_media'] : false;
 		$wpltf_wdgt_timeRef 			= isset( $instance['timeRef'] ) ? $instance['timeRef'] : false;
 		$wpltf_wdgt_timeAgo 			= isset( $instance['timeAgo'] ) ? $instance['timeAgo'] : false;
 		$wpltf_wdgt_twitterIntents 		= isset( $instance['twitterIntents'] ) ? $instance['twitterIntents'] : false;
@@ -229,6 +233,7 @@ class viwptf_TwitterTweets extends WP_Widget{
 			$consumerKey 		= trim($wpltf_wdgt_consumerKey);
 			 $disp_screen_name	= ($wpltf_wdgt_disp_scr_name != "true") ? "false" : "true";
 			$disp_orig_urls 		= $wpltf_wdgt_disp_orig_urls;
+            $disp_attach_media 		= $wpltf_wdgt_disp_attach_media;
 			$intents_text = $wpltf_wdgt_twitterIntentsText; 
 			$color_intents 		= $wpltf_wdgt_intentColor;
           $slide_style 		= $wpltf_wdgt_slide_style; 
@@ -287,7 +292,8 @@ class viwptf_TwitterTweets extends WP_Widget{
 			    		'permalink' => $permalink,
 			    		'image' => $image,
 			    		'time' => $uTime,
-			    		'tweet_id' => $tweet_id
+			    		'tweet_id' => $tweet_id,
+                        'media' => $tweet->entities->media[0]->media_url
 			    		);
 			     
 				endfor;
@@ -344,7 +350,13 @@ class viwptf_TwitterTweets extends WP_Widget{
 			        	echo '<div class="clear"></div></div>';	
 			        	?>
 			       		<div class="tweet_data">
-			        	<?php echo $t['text']; ?>
+			        	<?php
+                            echo $t['text']; 
+                        
+                            if($disp_attach_media && $t['media']){
+                                echo '<img src="' . $t['media'] . '" alt="" width="100%" />';
+                            }
+                        ?>
 			        	</div>
 			            <br/>
 			            <div class="clear"></div>
