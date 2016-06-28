@@ -99,6 +99,10 @@ font-weight:bold;
 				    <input class="checkbox" type="checkbox" <?php checked( (isset( $instance['disp_orig_urls']) && ($instance['disp_orig_urls'] == "true") ), true ); ?> id="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>" name="<?php echo $this->get_field_name( 'disp_orig_urls' ); ?>" value="true" />
 				    <label for="<?php echo $this->get_field_id( 'disp_orig_urls' ); ?>">Replace Twitter t.co shortened URLs with original</label>
 				</p>
+                <p>
+                    <input class="checkbox" type="checkbox" <?php checked( (isset( $instance['disp_attach_media']) && ($instance['disp_attach_media'] == "true") ), true ); ?> id="<?php echo $this->get_field_id( 'disp_attach_media' ); ?>" name="<?php echo $this->get_field_name( 'disp_attach_media' ); ?>" value="true" />
+                    <label for="<?php echo $this->get_field_id( 'disp_attach_media' ); ?>">Show attached media</label>
+                </p>
 				<p>
 				    <label for="<?php echo $this->get_field_id( 'tweet_border' ); ?>"><?php _e( 'Show Twitter Widget Border:', 'viva-twitter-feed' ); ?></label><br/>
 					<select name="<?php echo $this->get_field_name( 'tweet_border' ); ?>" id="<?php echo $this->get_field_id( 'tweet_border' ); ?>" style="width: 100%;">
